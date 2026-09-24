@@ -58,3 +58,86 @@ test("User Sign In Sucessifully", async({page})=>{
     await expect(page).toHaveURL("https://qademo.com/catalog");
 
 });
+
+//Negative scenario
+test("Invalid Login", async({page})=>{
+ await page.goto("https://qademo.com/");
+
+ await page.locator('[data-testid="hero-signin-button"]').click();
+
+ await expect(page).toHaveURL("https://qademo.com/login");
+
+ const userName = page.getByPlaceholder("Enter your username or email");
+ const password = page.getByPlaceholder("Enter your password");
+
+ await userName.fill("Biraj");
+ await password.fill("biraj@123");
+
+ await page.locator('[data-testid="login-submit-button"]').click();
+
+ const errorMessage = page.locator('[data-testid="login-error-message"]');
+ await expect(errorMessage).toHaveText("Invalid username or password");
+
+});
+
+//Form validation 
+test("Login without Credentials", async({page})=>{
+ await page.goto("https://qademo.com/");
+
+ await page.locator('[data-testid="hero-signin-button"]').click();
+
+ await expect(page).toHaveURL("https://qademo.com/login");
+
+ const userName = page.getByPlaceholder("Enter your username or email");
+ const password = page.getByPlaceholder("Enter your password");
+
+ await userName.fill("");
+ await password.fill("");
+
+ await page.locator('[data-testid="login-submit-button"]').click();
+
+ await expect(page.getByText("Username or email is required")).toBeVisible();
+ await expect(page.getByText("Password is required")).toBeVisible();
+
+});
+
+//Product / Add to Cart
+test("Product add to Cart", async({page})=>{
+await page.goto("https://qademo.com/");
+
+await page.locator('[data-testid="hero-signin-button"]').click();
+await expect(page).toHaveURL("https://qademo.com/login");
+
+const userName = page.getByPlaceholder("Enter your username or email");
+const password = page.getByPlaceholder("Enter your password");
+
+await userName.fill("Pinku");
+await password.fill("pRaj@1990");
+
+await page.locator('[data-testid="login-submit-button"]').click();
+await expect(page).toHaveURL("https://qademo.com/catalog");
+
+//Verify Product page heading
+await expect(page.getByText("Product Catalog")).toBeVisible();
+
+//Verify product details
+const productTitle = page.locator('[data-testid="product-name-4"]');
+await expect(productTitle).toHaveText("Bluetooth Speaker")
+
+const productDescription = page.locator('[data-testid="product-description-4"]');
+await expect(productDescription).toHaveText("Portable Bluetooth speaker with 360-degree sound and 12-hour battery life.");
+
+const productPrice = page.locator('[data-testid="product-price-4"]');
+await expect(productPrice).toHaveText("$159.99")
+
+// Add Product to Cart
+await page.locator('[data-testid="product-add-to-cart-4"]').click();
+
+//Click Cart
+await page.locator('[data-testid="navbar-cart-link"]').click();
+await expect(page).toHaveURL("https://qademo.com/cart");
+
+//Verify Cart page
+await expect(page.getByText("Shopping Cart")).toBeVisible();
+
+});
