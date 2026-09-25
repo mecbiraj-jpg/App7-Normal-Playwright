@@ -103,21 +103,21 @@ test("Add Product and Checkout", async({page})=>{
     const totalPrice = page.locator('[data-testid="order-total"]');
     await expect(totalPrice).toHaveText("$199.98");
 
-    //Remove product
+    // Remove Backpack
     await page.locator('[data-testid="cart-item-remove-3"]').click();
+
     await expect(
-        page.locator('[data-testid="cart-item-remove-3"]')
+    page.locator('[data-testid="cart-item-name-3"]')
     ).toHaveCount(0);
 
+    // Remove Keyboard
     await page.locator('[data-testid="cart-item-remove-7"]').click();
+
     await expect(
-        page.locator('[data-testid="cart-item-remove-7"]')
+    page.locator('[data-testid="cart-item-name-7"]')
     ).toHaveCount(0);
 
     const emptyCart = page.locator('[data-testid="cart-empty-heading"]');
     await expect(emptyCart).toHaveText("Your cart is empty");
-
-    //await page.locator('[data-testid="continue-shopping-button"]').click();
-    //await expect(page).toHaveURL("https://qademo.com/catalog");
 
 });
