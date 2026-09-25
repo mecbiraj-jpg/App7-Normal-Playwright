@@ -141,3 +141,4 @@ await expect(page).toHaveURL("https://qademo.com/cart");
 await expect(page.getByText("Shopping Cart")).toBeVisible();
 
 });
+
