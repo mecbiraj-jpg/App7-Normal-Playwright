@@ -15,4 +15,6 @@ test("Playwright Screenshot Validation", async({page})=>{
     // Full-page screenshot
     await page.screenshot({path: './screenshot/full-screenshot.png', fullPage: true});
 
+    // Git branch practice
+
 });
